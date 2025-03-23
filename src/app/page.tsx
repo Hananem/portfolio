@@ -164,7 +164,7 @@ export default function Home() {
       viewport={{ once: true }}
     >
       <p className="text-lg mb-6">
-        I'm a passionate Full Stack Developer with a strong foundation in HTML, 
+        I am a passionate Full Stack Developer with a strong foundation in HTML, 
         CSS, JavaScript, React, Next.js, and Tailwind CSS for building responsive 
         and user-friendly interfaces. I also have experience working with Node.js 
         and Express to develop full-stack applications.
@@ -175,7 +175,7 @@ export default function Home() {
         creating responsive and user-friendly web applications.
       </p>
       <p className="text-lg">
-        When I'm not coding, you can find me hiking, reading sci-fi novels, or experimenting with new web
+        When I am not coding, you can find me hiking, reading sci-fi novels, or experimenting with new web
         technologies.
       </p>
     </motion.div>
