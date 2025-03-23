@@ -36,6 +36,7 @@ export default function ContactForm() {
         setFormError(data.error || "Something went wrong. Please try again.")
       }
     } catch (error) {
+      console.error("Submission error:", error); // Log the error
       setFormError("Network error. Please try again.")
     } finally {
       setIsSubmitting(false)
@@ -56,7 +57,7 @@ export default function ContactForm() {
             <CheckCircle className="w-10 h-10 text-emerald-400" />
           </div>
           <h3 className="text-2xl font-bold mb-3 text-gradient">Message Sent!</h3>
-          <p className="text-emerald-100/80 mb-8 text-lg">Thank you for reaching out. I'll get back to you soon.</p>
+          <p className="text-emerald-100/80 mb-8 text-lg">Thank you for reaching out. I&apos;ll get back to you soon.</p>
           <button
             onClick={() => setIsSubmitted(false)}
             className="px-6 py-3 bg-emerald-700 hover:bg-emerald-600 text-white rounded-lg transition-all duration-300 shadow-md hover:shadow-emerald-700/20 hover:translate-y-[-2px] font-medium"
@@ -170,4 +171,3 @@ export default function ContactForm() {
     </motion.div>
   )
 }
-

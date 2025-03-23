@@ -157,28 +157,28 @@ export default function Home() {
 
     {/* Centered Text */}
     <motion.div
-      className="max-w-3xl mx-auto text-left"
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, delay: 0.4 }}
-      viewport={{ once: true }}
-    >
-      <p className="text-lg mb-6">
-        I am a passionate Full Stack Developer with a strong foundation in HTML, 
-        CSS, JavaScript, React, Next.js, and Tailwind CSS for building responsive 
-        and user-friendly interfaces. I also have experience working with Node.js 
-        and Express to develop full-stack applications.
-      </p>
-      <p className="text-lg mb-6">
-        After college, my journey in web development began when I built my first website. 
-        Since then, I have been honing my skills by working on full-stack projects, 
-        creating responsive and user-friendly web applications.
-      </p>
-      <p className="text-lg">
-        When I am not coding, you can find me hiking, reading sci-fi novels, or experimenting with new web
-        technologies.
-      </p>
-    </motion.div>
+  className="max-w-3xl mx-auto text-left"
+  initial={{ opacity: 0, y: 20 }}
+  whileInView={{ opacity: 1, y: 0 }}
+  transition={{ duration: 0.5, delay: 0.4 }}
+  viewport={{ once: true }}
+>
+  <p className="text-lg mb-6">
+    I am a passionate Full Stack Developer with a strong foundation in HTML, 
+    CSS, JavaScript, React, Next.js, and Tailwind CSS for building responsive 
+    and user-friendly interfaces. I also have experience working with Node.js 
+    and Express to develop full-stack applications.
+  </p>
+  <p className="text-lg mb-6">
+    After college, my journey in web development began when I built my first website. 
+    Since then, I have been honing my skills by working on full-stack projects, 
+    creating responsive and user-friendly web applications.
+  </p>
+  <p className="text-lg">
+    When I am not coding, you can find me hiking, reading sci-fi novels, or experimenting with new web
+    technologies.
+  </p>
+</motion.div>
   </div>
 </section>
 
