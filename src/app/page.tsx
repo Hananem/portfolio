@@ -10,6 +10,7 @@ import SkillLogo from "@/components/skill-logo"
 import ContactForm from "@/components/contact-form"
 import Navbar from "@/components/navbar"
 import FlyingLogos from "@/components/flying-logos"
+import Image from "next/image"
 
 export default function Home() {
   const aboutRef = useRef<HTMLDivElement>(null)
@@ -240,6 +241,16 @@ export default function Home() {
               link="https://mindheaven-apd7.onrender.com"
               delay={0.2}
             />
+ <ProjectCard
+  title="Electrical Engineer Portfolio"
+  description="A modern and interactive portfolio built for an electrical engineer using Next.js and Three.js. The site features dynamic animations, a sleek 3D-inspired layout, and highlights projects, skills, and achievements in a visually engaging way."
+   image="/images/eng.jpg"
+  tags={["Next.js", "Three.js", "TypeScript", "Tailwind CSS"]}
+  link="https://electrical-engineer.onrender.com"
+  delay={0.25}
+/>
+
+
           </div>
         </div>
       </section>
