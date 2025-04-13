@@ -10,7 +10,6 @@ import SkillLogo from "@/components/skill-logo"
 import ContactForm from "@/components/contact-form"
 import Navbar from "@/components/navbar"
 import FlyingLogos from "@/components/flying-logos"
-import Image from "next/image"
 
 export default function Home() {
   const aboutRef = useRef<HTMLDivElement>(null)
