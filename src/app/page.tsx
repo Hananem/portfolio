@@ -232,14 +232,7 @@ export default function Home() {
               link="https://vidly-eo5p.onrender.com"
               delay={0.15}
             />
-            <ProjectCard
-              title="MindHeaven"
-              description="A blog application that allows users to write and share blogs using the Quill.js text editor. Features include comments, likes, profile photo uploads, and an admin dashboard for content management."
-              image="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/%D9%84%D9%82%D8%B7%D8%A9%20%D8%A7%D9%84%D8%B4%D8%A7%D8%B4%D8%A9%202025-03-19%20172124.jpg-dbS5YPn1BuR57S4mDtfS4sYQWMtQvS.jpeg"
-              tags={["React", "Node.js", "MongoDB", "Express", "Quill.js"]}
-              link="https://mindheaven-apd7.onrender.com"
-              delay={0.2}
-            />
+           
  <ProjectCard
   title="Electrical Engineer Portfolio"
   description="A modern and interactive portfolio built for an electrical engineer using Next.js and Three.js. The site features dynamic animations, a sleek 3D-inspired layout, and highlights projects, skills, and achievements in a visually engaging way."
