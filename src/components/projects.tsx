@@ -1036,421 +1036,140 @@ const [activeGalleryIndexes, setActiveGalleryIndexes] = useState<Record<number, 
       {/* ───────── GALLERY MODAL ───────── */}
 {/* ───────── GALLERY MODAL ───────── */}
 {/* ───────── GALLERY MODAL ───────── */}
+{/* ───────── GALLERY MODAL ───────── */}
 <AnimatePresence>
-  {galleryProject && (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      onClick={() => setGalleryProject(null)}
-      style={{
-        position: 'fixed',
-        inset: 0,
-        zIndex: 70,
-        background: 'rgba(0,0,0,0.8)',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: 20,
-      }}
-    >
+  {galleryProject && (() => {
+
+    // ✅ الحل هنا
+    const gallery = galleryProject.gallery || [];
+
+    return (
       <motion.div
-        initial={{ scale: 0.9, opacity: 0, y: 30 }}
-        animate={{ scale: 1, opacity: 1, y: 0 }}
-        exit={{ scale: 0.9, opacity: 0, y: 30 }}
-        transition={{ duration: 0.35 }}
-        onClick={(e) => e.stopPropagation()}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        onClick={() => setGalleryProject(null)}
         style={{
-          width: '100%',
-          maxWidth: 1500,
-          height: '88vh', // ← قللنا الطول
-          position: 'relative',
-          background: '#fef9c3',
-          border: '5px solid #111',
-          borderRadius: 10,
-          overflow: 'hidden',
-          boxShadow: '14px 14px 0 #111',
+          position: 'fixed',
+          inset: 0,
+          zIndex: 70,
+          background: 'rgba(0,0,0,0.8)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          padding: 20,
         }}
       >
-        {/* CLOSE */}
-        <button
-          onClick={() => setGalleryProject(null)}
+        <motion.div
+          initial={{ scale: 0.9, opacity: 0, y: 30 }}
+          animate={{ scale: 1, opacity: 1, y: 0 }}
+          exit={{ scale: 0.9, opacity: 0, y: 30 }}
+          transition={{ duration: 0.35 }}
+          onClick={(e) => e.stopPropagation()}
           style={{
-            position: 'absolute',
-            top: 18,
-            right: 18,
-            zIndex: 100,
-            width: 48,
-            height: 48,
-            borderRadius: 8,
-            border: '3px solid #111',
-            background: '#111',
-            color: '#fff',
-            fontWeight: 900,
-            fontSize: 20,
-            cursor: 'pointer',
-          }}
-        >
-          ✕
-        </button>
-
-        {/* ───── PARENT GALLERY ARROWS ───── */}
-        <button
-          onClick={() => {
-            const container =
-              document.getElementById('parent-gallery');
-
-            if (container) {
-              container.scrollBy({
-                left: -container.clientWidth,
-                behavior: 'smooth',
-              });
-            }
-          }}
-          style={{
-            position: 'absolute',
-            left: 18,
-            top: '50%',
-            transform: 'translateY(-50%)',
-            zIndex: 90,
-            width: 58,
-            height: 58,
-            borderRadius: '50%',
-            border: '4px solid #111',
-            background: '#fff',
-            fontSize: 22,
-            fontWeight: 900,
-            cursor: 'pointer',
-            boxShadow: '5px 5px 0 #111',
-          }}
-        >
-          ←
-        </button>
-
-        <button
-          onClick={() => {
-            const container =
-              document.getElementById('parent-gallery');
-
-            if (container) {
-              container.scrollBy({
-                left: container.clientWidth,
-                behavior: 'smooth',
-              });
-            }
-          }}
-          style={{
-            position: 'absolute',
-            right: 18,
-            top: '50%',
-            transform: 'translateY(-50%)',
-            zIndex: 90,
-            width: 58,
-            height: 58,
-            borderRadius: '50%',
-            border: '4px solid #111',
-            background: '#fff',
-            fontSize: 22,
-            fontWeight: 900,
-            cursor: 'pointer',
-            boxShadow: '5px 5px 0 #111',
-          }}
-        >
-          →
-        </button>
-
-        {/* SECTION GALLERY */}
-        <div
-          id="parent-gallery"
-          style={{
-            display: 'flex',
-            overflowX: 'auto',
-            scrollSnapType: 'x mandatory',
             width: '100%',
-            height: '100%',
-            scrollbarWidth: 'none',
+            maxWidth: 1500,
+            height: '88vh',
+            position: 'relative',
+            background: '#fef9c3',
+            border: '5px solid #111',
+            borderRadius: 10,
+            overflow: 'hidden',
+            boxShadow: '14px 14px 0 #111',
           }}
         >
-          {galleryProject.gallery?.map((section, sectionIndex) => {
-            const activeIndex =
-              activeGalleryIndexes[sectionIndex] || 0;
 
-            return (
-              <div
-                key={sectionIndex}
-                style={{
-                  minWidth: '100%',
-                  height: '100%',
-                  scrollSnapAlign: 'start',
-                  padding: '28px 90px',
-                  overflowY: 'auto',
-                }}
-              >
-                {/* TOP TITLE */}
+          {/* CLOSE */}
+          <button
+            onClick={() => setGalleryProject(null)}
+            style={{
+              position: 'absolute',
+              top: 18,
+              right: 18,
+              zIndex: 100,
+              width: 48,
+              height: 48,
+              borderRadius: 8,
+              border: '3px solid #111',
+              background: '#111',
+              color: '#fff',
+              fontWeight: 900,
+              fontSize: 20,
+              cursor: 'pointer',
+            }}
+          >
+            ✕
+          </button>
+
+          {/* ───── PARENT GALLERY ───── */}
+          <div
+            id="parent-gallery"
+            style={{
+              display: 'flex',
+              overflowX: 'auto',
+              scrollSnapType: 'x mandatory',
+              width: '100%',
+              height: '100%',
+              scrollbarWidth: 'none',
+            }}
+          >
+            {gallery.map((section, sectionIndex) => {
+              const activeIndex =
+                activeGalleryIndexes[sectionIndex] || 0;
+
+              return (
                 <div
+                  key={sectionIndex}
                   style={{
-                    marginBottom: 18,
+                    minWidth: '100%',
+                    height: '100%',
+                    scrollSnapAlign: 'start',
+                    padding: '28px 90px',
+                    overflowY: 'auto',
                   }}
                 >
-                  <p
-                    style={{
-                      fontSize: 11,
-                      textTransform: 'uppercase',
-                      letterSpacing: '0.2em',
-                      fontWeight: 800,
-                      color: '#666',
-                      marginBottom: 8,
-                    }}
-                  >
-                    Gallery Section
-                  </p>
 
-                  <h2
-                    style={{
-                      fontSize: 'clamp(34px,4vw,62px)',
-                      lineHeight: 0.95,
-                      fontWeight: 900,
-                      textTransform: 'uppercase',
-                      color: '#111',
-                      textShadow: `5px 5px 0 ${galleryProject.bg}`,
-                    }}
-                  >
+                  {/* TITLE */}
+                  <h2 style={{
+                    fontSize: 'clamp(34px,4vw,62px)',
+                    fontWeight: 900,
+                    textTransform: 'uppercase',
+                    color: '#111',
+                  }}>
                     {section.title}
                   </h2>
-                </div>
 
-                {/* MAIN CONTENT */}
-                <div
-                  style={{
-                    display: 'grid',
-                    gridTemplateColumns: '1.25fr 0.75fr',
-                    gap: 18,
-                    alignItems: 'stretch',
-                  }}
-                >
-                  {/* IMAGE GALLERY */}
-                  <div>
-                    {/* BIG IMAGE */}
-                    <div
+                  {/* IMAGE */}
+                  <div style={{ marginTop: 20 }}>
+                    <img
+                      src={section.images[activeIndex]}
                       style={{
-                        position: 'relative',
-                        aspectRatio: '16 / 8.3', // ← أقل طول
-                        overflow: 'hidden',
+                        width: '100%',
                         borderRadius: 8,
                         border: '4px solid #111',
-                        background: '#ddd',
-                        marginBottom: 12,
-                        boxShadow: '6px 6px 0 #111',
                       }}
-                    >
-                      <img
-                        src={section.images[activeIndex]}
-                        alt=""
-                        style={{
-                          width: '100%',
-                          height: '100%',
-                          objectFit: 'cover',
-                        }}
-                      />
-
-                      {/* PREV */}
-                      <button
-                        onClick={() => {
-                          setActiveGalleryIndexes((prev) => ({
-                            ...prev,
-                            [sectionIndex]:
-                              activeIndex === 0
-                                ? section.images.length - 1
-                                : activeIndex - 1,
-                          }));
-                        }}
-                        style={{
-                          position: 'absolute',
-                          left: 14,
-                          top: '50%',
-                          transform: 'translateY(-50%)',
-                          width: 50,
-                          height: 50,
-                          borderRadius: '50%',
-                          border: '3px solid #111',
-                          background: '#fff',
-                          fontWeight: 900,
-                          fontSize: 18,
-                          cursor: 'pointer',
-                        }}
-                      >
-                        ←
-                      </button>
-
-                      {/* NEXT */}
-                      <button
-                        onClick={() => {
-                          setActiveGalleryIndexes((prev) => ({
-                            ...prev,
-                            [sectionIndex]:
-                              activeIndex === section.images.length - 1
-                                ? 0
-                                : activeIndex + 1,
-                          }));
-                        }}
-                        style={{
-                          position: 'absolute',
-                          right: 14,
-                          top: '50%',
-                          transform: 'translateY(-50%)',
-                          width: 50,
-                          height: 50,
-                          borderRadius: '50%',
-                          border: '3px solid #111',
-                          background: '#fff',
-                          fontWeight: 900,
-                          fontSize: 18,
-                          cursor: 'pointer',
-                        }}
-                      >
-                        →
-                      </button>
-                    </div>
-
-                    {/* THUMBNAILS */}
-                    <div
-                      style={{
-                        display: 'grid',
-                        gridTemplateColumns: 'repeat(4,1fr)',
-                        gap: 10,
-                      }}
-                    >
-                      {section.images.map((img, imgIndex) => (
-                        <button
-                          key={imgIndex}
-                          onClick={() =>
-                            setActiveGalleryIndexes((prev) => ({
-                              ...prev,
-                              [sectionIndex]: imgIndex,
-                            }))
-                          }
-                          style={{
-                            border:
-                              activeIndex === imgIndex
-                                ? `4px solid ${galleryProject.accent}`
-                                : '3px solid #111',
-                            borderRadius: 8,
-                            overflow: 'hidden',
-                            aspectRatio: '1 / 1',
-                            cursor: 'pointer',
-                            padding: 0,
-                            background: '#fff',
-                            boxShadow:
-                              activeIndex === imgIndex
-                                ? '4px 4px 0 #111'
-                                : 'none',
-                          }}
-                        >
-                          <img
-                            src={img}
-                            alt=""
-                            style={{
-                              width: '100%',
-                              height: '100%',
-                              objectFit: 'cover',
-                            }}
-                          />
-                        </button>
-                      ))}
-                    </div>
+                    />
                   </div>
 
-                  {/* RIGHT SIDE */}
-                  <div
-                    style={{
-                      background: galleryProject.bg,
-                      border: '4px solid #111',
-                      borderRadius: 8,
-                      padding: 24,
-                      boxShadow: '6px 6px 0 #111',
-                      display: 'flex',
-                      flexDirection: 'column',
-                      justifyContent: 'center',
-                      color: '#fff',
-                    }}
-                  >
-                    <p
-                      style={{
-                        fontSize: 11,
-                        fontWeight: 900,
-                        letterSpacing: '0.18em',
-                        textTransform: 'uppercase',
-                        opacity: 0.7,
-                        marginBottom: 12,
-                      }}
-                    >
-                      Showcase Details
-                    </p>
+                  {/* TEXT */}
+                  <ul style={{ marginTop: 20 }}>
+                    {section.text.map((item, i) => (
+                      <li key={i} style={{ marginBottom: 8 }}>
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
 
-                    <h3
-                      style={{
-                        fontSize: 30,
-                        lineHeight: 1,
-                        fontWeight: 900,
-                        marginBottom: 18,
-                        textTransform: 'uppercase',
-                      }}
-                    >
-                      {section.title}
-                    </h3>
-
-     <ul style={{ paddingLeft: 18, margin: 0 }}>
-  {section.text.map((item, i) => (
-    <li
-      key={i}
-      style={{
-        fontSize: 15,
-        lineHeight: 1.9,
-        marginBottom: 8,
-        color: '#fff',
-        listStyle: 'disc',
-      }}
-    >
-      {item}
-    </li>
-  ))}
-</ul>
-
-                    {/* COUNTER */}
-                    <div
-                      style={{
-                        marginTop: 24,
-                        display: 'flex',
-                        gap: 8,
-                        flexWrap: 'wrap',
-                      }}
-                    >
-                      {galleryProject.gallery.map((_, i) => (
-                        <div
-                          key={i}
-                          style={{
-                            width: i === sectionIndex ? 40 : 14,
-                            height: 14,
-                            borderRadius: 999,
-                            background:
-                              i === sectionIndex
-                                ? '#fef9c3'
-                                : 'rgba(255,255,255,0.3)',
-                            border: '2px solid #111',
-                            transition: '0.25s',
-                          }}
-                        />
-                      ))}
-                    </div>
-                  </div>
                 </div>
-              </div>
-            );
-          })}
-        </div>
+              );
+            })}
+          </div>
+
+        </motion.div>
       </motion.div>
-    </motion.div>
-  )}
+    );
+
+  })()}
 </AnimatePresence>
     </section>
   );
