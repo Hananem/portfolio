@@ -90,80 +90,137 @@ export default function MyProjects() {
           </div>
         </div>
 
-        {/* Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-4 auto-rows-[240px]">
-          {projects.map((project, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.07 }}
-              whileHover={{ x: -3, y: -3, boxShadow: '9px 9px 0px #111', transition: { duration: 0.15 } }}
-              whileTap={{ x: 3, y: 3, boxShadow: '3px 3px 0px #111', transition: { duration: 0.1 } }}
-              onClick={() => router.push(`/projects/${project.slug}`)}
-              className={`${project.gridClass} relative overflow-hidden cursor-pointer`}
-              style={{
-                background: project.bg, borderRadius: 4, padding: 24,
-                display: 'flex', flexDirection: 'column', justifyContent: 'space-between',
-                border: '3px solid #111', boxShadow: '6px 6px 0px #111',
-              }}
-            >
-              <div>
-                <span style={{
-                  fontSize: 9, textTransform: 'uppercase', letterSpacing: '0.2em',
-                  color: project.textColor, opacity: 0.65, fontWeight: 700,
-                }}>
-                  {project.category}
-                </span>
-                <h3 style={{
-                  fontSize: 'clamp(18px, 2vw, 26px)', fontWeight: 900,
-                  color: project.textColor, lineHeight: 1.1, marginTop: 6,
-                  textTransform: 'uppercase',
-                }}>
-                  {project.title}
-                </h3>
-              </div>
+        {/* Grid System - Match layout of image_dc475d.jpg using 12 columns */}
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-5">
+          {projects.map((project, index) => {
+            // التوزيع الجغرافي للبطاقات بناءً على ترتيبها في مصفوفة البيانات لمحاكاة الصورة تماماً
+            let gridSpanClass = "md:col-span-4"; // الافتراضي
+            
+            if (index === 0 || index === 1) {
+              // الصف الأول: بطاقتين كبيرتين متساويتين في الحجم بالنصف (50% / 50%)
+              gridSpanClass = "md:col-span-6";
+            } else if (index === 2) {
+              // الصف الثاني: البطاقة اليسرى العريضة (حوالي 58%)
+              gridSpanClass = "md:col-span-7";
+            } else if (index === 3) {
+              // الصف الثاني: البطاقة اليمنى المكملة (حوالي 42%)
+              gridSpanClass = "md:col-span-5";
+            } else {
+              // الصف الثالث: 3 بطاقات مقسمة بالتساوي (4 أعمدة لكل واحدة)
+              gridSpanClass = "md:col-span-4";
+            }
 
-              <p style={{
-                fontSize: 12, color: project.textColor, opacity: 0.75,
-                lineHeight: 1.5, marginTop: 10, maxWidth: 280,
-              }}>
-                {project.description}
-              </p>
-
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 12 }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                  <span style={{
-                    fontSize: 9, fontWeight: 700, textTransform: 'uppercase',
-                    letterSpacing: '0.1em', color: project.textColor, opacity: 0.5,
-                    border: `1.5px solid ${project.textColor}`, padding: '2px 8px', borderRadius: 2,
-                  }}>
-                    {project.tag}
-                  </span>
-                  {project.isPrivate && (
-                    <span style={{
-                      fontSize: 9, fontWeight: 900, textTransform: 'uppercase',
-                      letterSpacing: '0.1em', color: '#111', background: '#fef9c3',
-                      border: '1.5px solid #111', padding: '2px 8px', borderRadius: 2,
+            return (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: index * 0.07 }}
+                whileHover={{ x: -3, y: -3, boxShadow: '9px 9px 0px #111', transition: { duration: 0.15 } }}
+                whileTap={{ x: 3, y: 3, boxShadow: '3px 3px 0px #111', transition: { duration: 0.1 } }}
+                onClick={() => router.push(`/projects/${project.slug}`)}
+                className={`${gridSpanClass} relative overflow-hidden cursor-pointer p-6 md:p-8 min-h-[220px] md:min-h-[260px]`}
+                style={{
+                  background: project.bg, 
+                  borderRadius: 24, // حواف دائرية واضحة ومطابقة للصورة
+                  display: 'flex', 
+                  flexDirection: 'column', 
+                  justifyContent: 'space-between',
+                  border: '3px solid #111', 
+                  boxShadow: '6px 6px 0px #111',
+                }}
+              >
+                {/* الجزء العلوي: يضم العنوان الرئيسي الضخم والتاغ الفرعي */}
+                <div>
+                  <div style={{ display: 'flex', flexDirection: 'column-reverse' }}>
+                    <h3 style={{
+                      fontSize: 'clamp(28px, 3.5vw, 48px)', // خط ضخم ومميز كالأرقام في الصورة
+                      fontWeight: 900,
+                      color: project.textColor, 
+                      lineHeight: 1, 
+                      marginTop: 2,
+                      textTransform: 'uppercase',
                     }}>
-                      🔒 Private
+                      {project.title}
+                    </h3>
+                    <span style={{
+                      fontSize: 11, 
+                      textTransform: 'uppercase', 
+                      letterSpacing: '0.15em',
+                      color: project.textColor, 
+                      opacity: 0.8, 
+                      fontWeight: 700,
+                      background: 'rgba(0, 0, 0, 0.15)', // كبسولة خلفية صغيرة للنص الفرعي
+                      padding: '3px 10px',
+                      borderRadius: 20,
+                      width: 'fit-content'
+                    }}>
+                      {project.category}
                     </span>
-                  )}
+                  </div>
                 </div>
 
-                <div style={{
-                  width: 36, height: 36,
-                  border: `2.5px solid ${project.textColor}`,
-                  borderRadius: 2,
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  fontSize: 16, color: project.textColor, fontWeight: 900,
+                {/* الوصف القصير في المنتصف */}
+                <p style={{
+                  fontSize: 14, 
+                  color: project.textColor, 
+                  opacity: 0.85,
+                  lineHeight: 1.4, 
+                  marginTop: 14, 
+                  marginBottom: 14,
+                  maxWidth: '85%',
                 }}>
-                  ↗
+                  {project.description}
+                </p>
+
+                {/* الجزء السفلي: التاجات والأيقونة العائمة في الزاوية */}
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                    <span style={{
+                      fontSize: 10, 
+                      fontWeight: 700, 
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.1em', 
+                      color: project.textColor,
+                      border: `2px solid ${project.textColor}`, 
+                      padding: '4px 12px', 
+                      borderRadius: 8,
+                    }}>
+                      {project.tag}
+                    </span>
+                    {project.isPrivate && (
+                      <span style={{
+                        fontSize: 10, 
+                        fontWeight: 900, 
+                        textTransform: 'uppercase',
+                        letterSpacing: '0.1em', 
+                        color: '#111', 
+                        background: '#fef9c3',
+                        border: '2px solid #111', 
+                        padding: '4px 12px', 
+                        borderRadius: 8,
+                      }}>
+                        🔒 Private
+                      </span>
+                    )}
+                  </div>
+
+                  {/* أيقونة السهم المستوحاة من تموضع اللوجوهات أسفل بطاقات الصورة */}
+                  <div style={{
+                    width: 40, height: 40,
+                    border: `2.5px solid ${project.textColor}`,
+                    borderRadius: '50%', // دائرية لتجانس الأيقونات بالأسفل
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    fontSize: 18, color: project.textColor, fontWeight: 900,
+                    background: 'rgba(255, 255, 255, 0.1)'
+                  }}>
+                    ↗
+                  </div>
                 </div>
-              </div>
-            </motion.div>
-          ))}
+              </motion.div>
+            );
+          })}
         </div>
       </div>
     </section>
