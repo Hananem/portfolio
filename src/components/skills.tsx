@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, useRef } from "react";
 
 const SKILLS = [
@@ -8,13 +10,13 @@ const SKILLS = [
 ];
 
 export default function SkillsSection() {
-  const sectionRef = useRef(null);
-  const pillsAreaRef = useRef(null);
-  const initializedRef = useRef(false);
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const pillsAreaRef = useRef<HTMLDivElement>(null);
+  const initializedRef = useRef<boolean>(false);
 
   useEffect(() => {
-    let rafId;
-    let cleanupPhysics = null;
+    let rafId: number;
+    let cleanupPhysics: (() => void) | null = null;
 
     async function initPhysics() {
       const Matter = await import("matter-js");
@@ -37,7 +39,7 @@ export default function SkillsSection() {
         Bodies.rectangle(W / 2, -T / 2,     W + 200, T, { isStatic: true }),
       ]);
 
-      function measure(text) {
+      function measure(text: string): { w: number; h: number } {
         const s = document.createElement("span");
         s.style.cssText =
           "position:absolute;visibility:hidden;font-family:'Space Grotesk',sans-serif;" +
@@ -50,12 +52,13 @@ export default function SkillsSection() {
         return r;
       }
 
-      const bodies = [], els = [], sizes = [];
+      const bodies: Matter.Body[] = [];
+      const els: HTMLDivElement[] = [];
+      const sizes: { w: number; h: number }[] = [];
 
       SKILLS.forEach((name) => {
         const { w, h } = measure(name);
 
-        // Start pills near the top of the visible area so they fall down
         const x = 40 + Math.random() * (W - 80);
         const y = h + Math.random() * (H * 0.3);
 
@@ -79,27 +82,27 @@ export default function SkillsSection() {
         const el = document.createElement("div");
         el.textContent = name;
         Object.assign(el.style, {
-          position:     "absolute",
-          left:         "0",
-          top:          "0",
-          width:        w + "px",
-          height:       h + "px",
-          lineHeight:   h + "px",
-          textAlign:    "center",
-          padding:      "0",
-          borderRadius: "60px",
-          border:       "1.5px solid rgba(255,255,255,0.75)",
-          color:        "#ffffff",
-          fontFamily:   "'Space Grotesk','Segoe UI',sans-serif",
-          fontSize:     "13px",
-          fontWeight:   "700",
-          letterSpacing:".03em",
-          whiteSpace:   "nowrap",
-          cursor:       "pointer",
-          userSelect:   "none",
-          boxSizing:    "border-box",
-          willChange:   "transform",
-          transition:   "border-color 0.15s, background 0.15s",
+          position:      "absolute",
+          left:          "0",
+          top:           "0",
+          width:         w + "px",
+          height:        h + "px",
+          lineHeight:    h + "px",
+          textAlign:     "center",
+          padding:       "0",
+          borderRadius:  "60px",
+          border:        "1.5px solid rgba(255,255,255,0.75)",
+          color:         "#ffffff",
+          fontFamily:    "'Space Grotesk','Segoe UI',sans-serif",
+          fontSize:      "13px",
+          fontWeight:    "700",
+          letterSpacing: ".03em",
+          whiteSpace:    "nowrap",
+          cursor:        "pointer",
+          userSelect:    "none",
+          boxSizing:     "border-box",
+          willChange:    "transform",
+          transition:    "border-color 0.15s, background 0.15s",
         });
 
         el.addEventListener("mouseenter", () => {
@@ -147,8 +150,7 @@ export default function SkillsSection() {
       cleanupPhysics = () => {
         cancelAnimationFrame(rafId);
         Runner.stop(runner);
-        // remove pill elements
-        els.forEach(el => el.remove());
+        els.forEach((el) => el.remove());
       };
     }
 
