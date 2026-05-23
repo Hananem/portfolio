@@ -35,41 +35,7 @@ const vSlideRight: Variants = {
   }),
 }
 
-// 4. fade بطيء جداً + blur
-const vFadeBlur: Variants = {
-  hidden: { opacity: 0, filter: "blur(18px)", scale: 0.94 },
-  visible: (d = 0) => ({
-    opacity: 1, filter: "blur(0px)", scale: 1,
-    transition: { duration: 1.6, ease: "easeOut", delay: d },
-  }),
-}
 
-// 5. flip vertical — ينقلب للأمام
-const vFlipY: Variants = {
-  hidden: { opacity: 0, rotateX: -90, y: 40 },
-  visible: (d = 0) => ({
-    opacity: 1, rotateX: 0, y: 0,
-    transition: { duration: 1.4, ease: [0.34, 1.2, 0.64, 1], delay: d },
-  }),
-}
-
-// 6. zoom من الصفر
-const vZoom: Variants = {
-  hidden: { opacity: 0, scale: 0 },
-  visible: (d = 0) => ({
-    opacity: 1, scale: 1,
-    transition: { duration: 1.2, ease: [0.34, 1.56, 0.64, 1], delay: d },
-  }),
-}
-
-// 7. skew + slide
-const vSkew: Variants = {
-  hidden: { opacity: 0, skewY: 8, y: 60 },
-  visible: (d = 0) => ({
-    opacity: 1, skewY: 0, y: 0,
-    transition: { duration: 1.4, ease: [0.16, 1, 0.3, 1], delay: d },
-  }),
-}
 
 // 8. badge pop elastic
 const vBadge: Variants = {
@@ -210,11 +176,7 @@ function BigWord({ text, outline, red }: { text: string; outline?: boolean; red?
   )
 }
 
-const skills = [
-  "React", "Next.js", "TypeScript", "Framer Motion",
-  "GSAP", "Tailwind CSS", "Node.js", "Figma",
-  "Three.js", "CSS Animations", "REST APIs", "Git",
-]
+
 
 /* ═══════════════════════════════════════════════════
    MAIN
