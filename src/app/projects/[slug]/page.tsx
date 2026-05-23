@@ -19,22 +19,7 @@ function Starburst({ color, size = 60 }: { color: string; size?: number }) {
   );
 }
 
-function WavyBadge({ text, color }: { text: string; color: string }) {
-  return (
-    <div style={{
-      background: color,
-      border: '3px solid #111',
-      borderRadius: 999,
-      padding: '6px 20px',
-      display: 'inline-block',
-      boxShadow: '3px 3px 0 #111',
-    }}>
-      <span style={{ fontSize: 11, fontWeight: 900, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#fff' }}>
-        {text}
-      </span>
-    </div>
-  );
-}
+
 
 export default function ProjectPage() {
   const { slug } = useParams<{ slug: string }>();
