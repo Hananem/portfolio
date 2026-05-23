@@ -1,370 +1,332 @@
 "use client"
 
-import { useRef } from "react"
-import Link from "next/link"
-import { motion } from "framer-motion"
-import { ArrowDown, Github, Linkedin, Mail } from "lucide-react"
-import ThreeScene from "@/components/three-scene"
-import ProjectCard from "@/components/project-card"
-import SkillLogo from "@/components/skill-logo"
-import ContactForm from "@/components/contact-form"
-import Navbar from "@/components/navbar"
-import FlyingLogos from "@/components/flying-logos"
+import { useState, useEffect, useRef, useCallback } from "react";
+import { motion, AnimatePresence, useAnimation } from "framer-motion";
+import Image from "next/image";
+import Experience from "@/components/experience"
+import Intro from "@/components/intro"
+import About from "@/components/about"
+import HireMe from "@/components/hire"
+import MyProjects from "@/components/projects"
+import SkillsSection from "@/components/skills"
+import QuoteSection from "@/components/last"
+import HeroSection from "@/components/herosection"
+
+const CODE_WORDS = [
+  "React", "useState", "API", "async", "TypeScript", "useEffect",
+  "CSS", "Git", "Node.js", "Redux", "MongoDB", "REST",
+  "GraphQL", "Docker", "Tailwind", "Next.js", "Python", "SQL",
+  "JSON", "OAuth", "Webpack", "Vite", "Linux", "Bash",
+  "forEach", "Promise", "useRef", "fetch()", "npm", "CI/CD",
+  "UI/UX", "CORS", "JWT", "WebSocket", "Axios", "ESLint",
+];
+
+const CARD_COLORS = [
+  { bg: "#10637D", text: "#ffffff" },
+  { bg: "#E34256", text: "#ffffff" },
+  { bg: "#1a1a2e", text: "#ffffff" },
+  { bg: "#2d6a4f", text: "#ffffff" },
+  { bg: "#7B2D8B", text: "#ffffff" },
+  { bg: "#c77d12", text: "#ffffff" },
+  { bg: "#1b4f72", text: "#ffffff" },
+  { bg: "#922b21", text: "#ffffff" },
+];
+
+let cardIdCounter = 0;
+
+interface Card {
+  id: number;
+  x: number;
+  y: number;
+  color: { bg: string; text: string };
+  word: string;
+  rotate: number;
+  delay: number;
+}
+
+function MouseCursor() {
+  const [pos, setPos] = useState({ x: -100, y: -100 });
+
+  useEffect(() => {
+    const move = (e: MouseEvent) => setPos({ x: e.clientX, y: e.clientY });
+    window.addEventListener("mousemove", move);
+    return () => window.removeEventListener("mousemove", move);
+  }, []);
+
+  return (
+    <div
+      style={{
+        position: "fixed",
+        left: pos.x - 6,
+        top: pos.y - 6,
+        width: 12,
+        height: 12,
+        borderRadius: "50%",
+        background: "#E34256",
+        pointerEvents: "none",
+        zIndex: 9999,
+        mixBlendMode: "multiply",
+        transition: "left 0.05s, top 0.05s",
+      }}
+    />
+  );
+}
+
+// ─── Hero content: dot bounces then letters burst from it ─────────────────────
+function HeroContent() {
+  const dotControls = useAnimation();
+  const [lettersVisible, setLettersVisible] = useState(false);
+
+  useEffect(() => {
+    async function run() {
+      // سقوط الكرة
+      await dotControls.start({
+        y: 0,
+        scaleX: 1,
+        scaleY: 1,
+        transition: {
+          duration: 0.65,
+          ease: [0.55, 0, 1, 0.45],
+        },
+      });
+
+      // squash
+      await dotControls.start({
+        scaleX: 1.6,
+        scaleY: 0.5,
+        transition: { duration: 0.07 },
+      });
+
+      await dotControls.start({
+        scaleX: 1,
+        scaleY: 1,
+        transition: { duration: 0.06 },
+      });
+
+      // الارتدادات
+      const bounces = [
+        { up: -140, dur: 0.28 },
+        { up: -70, dur: 0.2 },
+        { up: -30, dur: 0.14 },
+        { up: -10, dur: 0.1 },
+      ];
+
+      for (const b of bounces) {
+        await dotControls.start({
+          y: b.up,
+          scaleX: 0.88,
+          scaleY: 1.15,
+          transition: {
+            duration: b.dur,
+            ease: "easeOut",
+          },
+        });
+
+        await dotControls.start({
+          y: 0,
+          scaleX: 1.45,
+          scaleY: 0.6,
+          transition: {
+            duration: b.dur * 0.85,
+            ease: "easeIn",
+          },
+        });
+
+        await dotControls.start({
+          scaleX: 1,
+          scaleY: 1,
+          transition: { duration: 0.06 },
+        });
+      }
+
+      // انزلاق الكرة لليمين
+      await dotControls.start({
+        x: [0, 355, 335],
+        y: [0, 3, 1],
+        transition: {
+          duration: 2,
+          ease: [0.16, 1, 0.3, 1],
+        },
+      });
+
+      // ظهور الاسم من الكرة
+      setLettersVisible(true);
+    }
+
+    run();
+  }, [dotControls]);
+
+  const name = "Hana Nemsi";
+  const chars = name.split("");
+
+  return (
+    <div
+      style={{
+        position: "relative",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        zIndex: 10,
+        pointerEvents: "none",
+        userSelect: "none",
+      }}
+    >
+      {/* الحروف */}
+      {chars.map((char, i) => {
+        const isSpace = char === " ";
+
+        return (
+          <motion.span
+            key={i}
+            initial={{
+              opacity: 0,
+              scale: 0,
+              x: 320,
+            }}
+            animate={
+              lettersVisible
+                ? {
+                    opacity: 1,
+                    scale: 1,
+                    x: 0,
+                  }
+                : {}
+            }
+            transition={{
+              delay: i * 0.055,
+              duration: 0.65,
+              ease: [0.22, 1, 0.36, 1],
+            }}
+           style={{
+  display: "inline-block",
+  fontFamily: "ChunkyRetro, serif",
+  color: "#e6c005",
+  fontSize: "clamp(80px, 12vw, 280px)",
+  lineHeight: 1,
+  width: isSpace ? "0.3em" : undefined,
+  transformOrigin: "center center",
+ textShadow: `
+  2px 2px 0 #fcfceb,
+  4px 4px 0 #f4f5d3,
+  6px 6px 0 #fcfce8,
+  8px 8px 0 #f4f5d3,
+  10px 10px 0 #fcfceb
+`,
+}}
+          >
+            {isSpace ? "\u00A0" : char}
+          </motion.span>
+        );
+      })}
+
+      {/* الكرة */}
+      <motion.div
+        animate={dotControls}
+        initial={{
+          y: "-50vh",
+          scaleX: 1,
+          scaleY: 1,
+          x: 0,
+        }}
+        style={{
+          position: "absolute",
+          left: "50%",
+          top: "50%",
+          translateX: "-50%",
+          translateY: "-50%",
+          width: "clamp(16px, 2.2vw, 38px)",
+          height: "clamp(16px, 2.2vw, 38px)",
+          borderRadius: "50%",
+          background: "#e6c005",
+          
+          zIndex: 30,
+        }}
+      />
+    </div>
+  );
+}
+// ─────────────────────────────────────────────────────────────────────────────
 
 export default function Home() {
-  const aboutRef = useRef<HTMLDivElement>(null)
+  const [cards, setCards] = useState<Card[]>([]);
+  const lastPos = useRef({ x: 0, y: 0 });
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const sectionRef = useRef<HTMLElement>(null);
+  const wordIndexRef = useRef(0);
 
-  const scrollToAbout = () => {
-    aboutRef.current?.scrollIntoView({ behavior: "smooth" })
-  }
+  const [showModal, setShowModal] = useState(false);
+
+  useEffect(() => {
+    const showTimer = setTimeout(() => setShowModal(true), 1000);
+    const hideTimer = setTimeout(() => setShowModal(false), 10000);
+    return () => {
+      clearTimeout(showTimer);
+      clearTimeout(hideTimer);
+    };
+  }, []);
+
+  const spawnCards = useCallback((x: number, y: number) => {
+    const count = Math.floor(Math.random() * 2) + 2;
+    const newCards: Card[] = Array.from({ length: count }, (_, i) => {
+      const colorIndex = Math.floor(Math.random() * CARD_COLORS.length);
+      const word = CODE_WORDS[wordIndexRef.current % CODE_WORDS.length];
+      wordIndexRef.current++;
+      return {
+        id: ++cardIdCounter,
+        x: x + (Math.random() - 0.5) * 60,
+        y: y + (Math.random() - 0.5) * 40,
+        color: CARD_COLORS[colorIndex],
+        word,
+        rotate: (Math.random() - 0.5) * 18,
+        delay: i * 0.04,
+      };
+    });
+    setCards((prev) => [...prev.slice(-16), ...newCards]);
+  }, []);
+
+  const handleMouseMove = useCallback(
+    (e: React.MouseEvent<HTMLElement>) => {
+      const rect = sectionRef.current?.getBoundingClientRect();
+      if (!rect) return;
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      const dx = x - lastPos.current.x;
+      const dy = y - lastPos.current.y;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      if (dist > 30) {
+        lastPos.current = { x, y };
+        spawnCards(x, y);
+      }
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+      timeoutRef.current = setTimeout(() => setCards([]), 500);
+    },
+    [spawnCards]
+  );
+
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    };
+  }, []);
 
   return (
     <main className="min-h-screen bg-[#011a14] text-emerald-50">
-      <Navbar />
 
-      {/* Hero Section */}
-      <section id="home" className="relative h-screen flex flex-col items-center justify-center overflow-hidden">
-        <div className="absolute inset-0 z-0">
-          <ThreeScene />
-        </div>
+      {/* ── Hero Section ─────────────────────────────────────────────────── */}
+     <HeroSection />
+      {/* ─────────────────────────────────────────────────────────────────── */}
 
-        <FlyingLogos />
+      <Intro />
+      <div>
+        <About />
+      </div>
 
-        {/* Light effect overlay */}
-        <div className="absolute inset-0 z-[1] pointer-events-none">
-          <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full bg-emerald-500/5 blur-[100px] animate-pulse-slow"></div>
-          <div className="absolute bottom-1/4 left-1/3 w-[300px] h-[300px] rounded-full bg-emerald-400/5 blur-[80px] animate-pulse-slow animation-delay-1000"></div>
-          <div className="absolute top-1/3 right-1/4 w-[250px] h-[250px] rounded-full bg-teal-500/5 blur-[60px] animate-pulse-slow animation-delay-2000"></div>
-        </div>
+      <Experience />
 
-        {/* Hero gradient overlay */}
-        <div className="absolute inset-0 hero-gradient z-0"></div>
-
-        <div className="z-10 container mx-auto px-4 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="mb-4"
-          >
-            <span className="px-4 py-1 bg-emerald-900/50 rounded-full text-emerald-400 text-sm font-medium border border-emerald-800/50 backdrop-blur-sm glow-border">
-              Frontend Developer
-            </span>
-          </motion.div>
-
-          <motion.h1
-            className="text-4xl md:text-7xl font-bold mb-4 text-gradient animate-text-glow"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-          >
-            Hana Nemsi
-          </motion.h1>
-
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5, delay: 0.3 }}
-            className="w-24 h-1 bg-gradient-to-r from-emerald-400 to-emerald-600 mx-auto mb-8 rounded-full relative"
-          >
-            <div className="absolute inset-0 bg-emerald-400/50 blur-sm animate-pulse-slow"></div>
-          </motion.div>
-
-          <motion.p
-            className="text-lg md:text-xl max-w-2xl mx-auto mb-12 text-emerald-100/90 leading-relaxed"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-          >
-            I build modern, responsive web applications with React, Next.js, and TypeScript. Creating beautiful digital
-            experiences is my passion.
-          </motion.p>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-            className="flex justify-center space-x-4"
-          >
-            <Link
-              href="https://github.com/Hananem"
-              target="_blank"
-              className="p-3 bg-gradient-to-br from-[#043d30] to-[#032922] rounded-full hover:shadow-emerald-700/20 hover:-translate-y-1 transition-all duration-300 border border-emerald-700/30 group light-effect animate-border-glow"
-            >
-              <Github className="w-6 h-6 text-emerald-300 group-hover:text-emerald-400 transition-colors" />
-              <span className="sr-only">GitHub</span>
-            </Link>
-            <Link
-              href="https://www.linkedin.com/in/hana-nemsi-27a18a148/"
-              target="_blank"
-              className="p-3 bg-gradient-to-br from-[#043d30] to-[#032922] rounded-full hover:shadow-emerald-700/20 hover:-translate-y-1 transition-all duration-300 border border-emerald-700/30 group light-effect animate-border-glow animation-delay-500"
-            >
-              <Linkedin className="w-6 h-6 text-emerald-300 group-hover:text-emerald-400 transition-colors" />
-              <span className="sr-only">LinkedIn</span>
-            </Link>
-            <Link
-              href="mailto:nemsihana@gmail.com"
-              className="p-3 bg-gradient-to-br from-[#043d30] to-[#032922] rounded-full hover:shadow-emerald-700/20 hover:-translate-y-1 transition-all duration-300 border border-emerald-700/30 group light-effect animate-border-glow animation-delay-1000"
-            >
-              <Mail className="w-6 h-6 text-emerald-300 group-hover:text-emerald-400 transition-colors" />
-              <span className="sr-only">Email</span>
-            </Link>
-          </motion.div>
-        </div>
-
-        <motion.div
-          className="absolute bottom-10 left-1/2 transform -translate-x-1/2 cursor-pointer"
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.8 }}
-          onClick={scrollToAbout}
-        >
-          <div className="p-3 bg-gradient-to-br from-[#043d30] to-[#032922] rounded-full hover:shadow-emerald-700/20 hover:-translate-y-1 transition-all duration-300 border border-emerald-700/30 animate-float light-effect">
-            <ArrowDown className="w-6 h-6 text-emerald-300" />
-          </div>
-        </motion.div>
-      </section>
-
-      {/* About Section */}
-      <section id="about" ref={aboutRef} className="py-20 bg-[#032922] relative text-center">
-  {/* Light effects for about section */}
-  <div className="absolute top-0 left-0 w-full h-[1px] bg-emerald-500/20 overflow-hidden">
-    <div className="absolute inset-0 animate-shimmer"></div>
-  </div>
-  <div className="absolute bottom-0 left-0 w-full h-[1px] bg-emerald-500/20 overflow-hidden">
-    <div className="absolute inset-0 animate-shimmer"></div>
-  </div>
-
-  <div className="container mx-auto px-4 relative z-10">
-    <motion.h2
-      className="text-3xl md:text-4xl font-bold mb-2 text-gradient animate-text-glow"
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
-      viewport={{ once: true }}
-    >
-      About Me
-    </motion.h2>
-    <motion.div
-      initial={{ width: 0 }}
-      whileInView={{ width: 80 }}
-      transition={{ duration: 0.5, delay: 0.2 }}
-      viewport={{ once: true }}
-      className="h-1 bg-gradient-to-r from-emerald-400 to-emerald-600 mx-auto mb-12 rounded-full relative"
-    >
-      <div className="absolute inset-0 bg-emerald-400/50 blur-sm animate-pulse-slow"></div>
-    </motion.div>
-
-    {/* Centered Text */}
-    <motion.div
-  className="max-w-3xl mx-auto text-left"
-  initial={{ opacity: 0, y: 20 }}
-  whileInView={{ opacity: 1, y: 0 }}
-  transition={{ duration: 0.5, delay: 0.4 }}
-  viewport={{ once: true }}
->
-  <p className="text-lg mb-6">
-    I am a passionate Full Stack Developer with a strong foundation in HTML, 
-    CSS, JavaScript, React, Next.js, and Tailwind CSS for building responsive 
-    and user-friendly interfaces. I also have experience working with Node.js 
-    and Express to develop full-stack applications.
-  </p>
-  <p className="text-lg mb-6">
-    After college, my journey in web development began when I built my first website. 
-    Since then, I have been honing my skills by working on full-stack projects, 
-    creating responsive and user-friendly web applications.
-  </p>
-  <p className="text-lg">
-    When I am not coding, you can find me hiking, reading sci-fi novels, or experimenting with new web
-    technologies.
-  </p>
-</motion.div>
-  </div>
-</section>
-
-
-
-      {/* Projects Section */}
-      <section id="projects" className="py-20 bg-[#011a14] relative">
-        {/* Light effects for projects section */}
-        <div className="absolute top-0 left-0 w-full h-[1px] bg-emerald-500/20 overflow-hidden">
-          <div className="absolute inset-0 animate-shimmer"></div>
-        </div>
-        <div className="absolute bottom-0 left-0 w-full h-[1px] bg-emerald-500/20 overflow-hidden">
-          <div className="absolute inset-0 animate-shimmer"></div>
-        </div>
-        <div className="absolute top-1/3 right-1/4 w-[350px] h-[350px] rounded-full bg-emerald-500/5 blur-[100px] animate-pulse-slow"></div>
-        <div className="absolute bottom-1/3 left-1/4 w-[250px] h-[250px] rounded-full bg-emerald-400/5 blur-[80px] animate-pulse-slow animation-delay-1500"></div>
-
-        <div className="container mx-auto px-4 relative z-10">
-          <motion.h2
-            className="text-3xl md:text-4xl font-bold mb-2 text-center text-gradient animate-text-glow"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            viewport={{ once: true }}
-          >
-            My Projects
-          </motion.h2>
-          <motion.div
-            initial={{ width: 0 }}
-            whileInView={{ width: 80 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            viewport={{ once: true }}
-            className="h-1 bg-gradient-to-r from-emerald-400 to-emerald-600 mx-auto mb-12 rounded-full relative"
-          >
-            <div className="absolute inset-0 bg-emerald-400/50 blur-sm animate-pulse-slow"></div>
-          </motion.div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <ProjectCard
-              title="Jobify"
-              description="A modern job portal built with the MERN stack, connecting job seekers with employers. Features include job listings, user profiles, application management, and an admin dashboard with interactive charts."
-              image="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/%D9%84%D9%82%D8%B7%D8%A9%20%D8%A7%D9%84%D8%B4%D8%A7%D8%B4%D8%A9%202025-03-19%20170954.jpg-G4R6U3ZYQJLlOijLNOEDhJzGpXNA5B.jpeg"
-              tags={["React", "Node.js", "MongoDB", "Express", "Tailwind CSS", "Chart.js"]}
-              link="https://jobify-mwbz.onrender.com"
-              delay={0.1}
-            />
-            <ProjectCard
-              title="Vidly"
-              description="A modern video-sharing platform where users can upload videos, add thumbnails, and organize content into playlists. Features include comments, reactions, and a powerful search system."
-              image="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/%D9%84%D9%82%D8%B7%D8%A9%20%D8%A7%D9%84%D8%B4%D8%A7%D8%B4%D8%A9%202025-03-19%20171940.jpg-lWS7dsnYJpSW4h13ftKGnMkMKmEGRG.jpeg"
-              tags={["React", "Node.js", "MongoDB", "Express", "Socket.io"]}
-              link="https://vidly-eo5p.onrender.com"
-              delay={0.15}
-            />
-           
- <ProjectCard
-  title="Electrical Engineer Portfolio"
-  description="A modern and interactive portfolio built for an electrical engineer using Next.js and Three.js. The site features dynamic animations, a sleek 3D-inspired layout, and highlights projects, skills, and achievements in a visually engaging way."
-   image="/images/eng.jpg"
-  tags={["Next.js", "Three.js", "TypeScript", "Tailwind CSS"]}
-  link="https://electrical-engineer.onrender.com"
-  delay={0.25}
-/>
-
-
-          </div>
-        </div>
-      </section>
-
-      {/* Skills Section */}
-      <section id="skills" className="py-20 bg-[#032922] relative">
-        {/* Light effects for skills section */}
-        <div className="absolute top-0 left-0 w-full h-[1px] bg-emerald-500/20 overflow-hidden">
-          <div className="absolute inset-0 animate-shimmer"></div>
-        </div>
-        <div className="absolute bottom-0 left-0 w-full h-[1px] bg-emerald-500/20 overflow-hidden">
-          <div className="absolute inset-0 animate-shimmer"></div>
-        </div>
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full bg-emerald-500/5 blur-[120px] animate-pulse-slow"></div>
-
-        <div className="container mx-auto px-4 relative z-10">
-          <motion.h2
-            className="text-3xl md:text-4xl font-bold mb-2 text-center text-gradient animate-text-glow"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            viewport={{ once: true }}
-          >
-            Skills & Technologies
-          </motion.h2>
-          <motion.div
-            initial={{ width: 0 }}
-            whileInView={{ width: 80 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            viewport={{ once: true }}
-            className="h-1 bg-gradient-to-r from-emerald-400 to-emerald-600 mx-auto mb-12 rounded-full relative"
-          >
-            <div className="absolute inset-0 bg-emerald-400/50 blur-sm animate-pulse-slow"></div>
-          </motion.div>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-8 max-w-5xl mx-auto">
-            <SkillLogo name="JavaScript" delay={0.1} />
-            <SkillLogo name="TypeScript" delay={0.15} />
-            <SkillLogo name="React" delay={0.2} />
-            <SkillLogo name="Next.js" delay={0.25} />
-            <SkillLogo name="HTML" delay={0.3} />
-            <SkillLogo name="CSS" delay={0.35} />
-            <SkillLogo name="TailwindCSS" delay={0.38} />
-            <SkillLogo name="Node.js" delay={0.4} />
-            <SkillLogo name="MongoDB" delay={0.45} />
-            <SkillLogo name="Git" delay={0.5} />
-          </div>
-        </div>
-      </section>
-
-      {/* Contact Section */}
-      <section id="contact" className="py-20 bg-[#011a14] relative">
-        {/* Light effects for contact section */}
-        <div className="absolute top-0 left-0 w-full h-[1px] bg-emerald-500/20 overflow-hidden">
-          <div className="absolute inset-0 animate-shimmer"></div>
-        </div>
-        <div className="absolute top-1/4 right-1/3 w-[300px] h-[300px] rounded-full bg-emerald-500/5 blur-[80px] animate-pulse-slow"></div>
-        <div className="absolute bottom-1/3 left-1/3 w-[250px] h-[250px] rounded-full bg-emerald-400/5 blur-[60px] animate-pulse-slow animation-delay-1000"></div>
-
-        <div className="container mx-auto px-4 relative z-10">
-          <motion.h2
-            className="text-3xl md:text-4xl font-bold mb-2 text-center text-gradient animate-text-glow"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            viewport={{ once: true }}
-          >
-            Get In Touch
-          </motion.h2>
-          <motion.div
-            initial={{ width: 0 }}
-            whileInView={{ width: 80 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            viewport={{ once: true }}
-            className="h-1 bg-gradient-to-r from-emerald-400 to-emerald-600 mx-auto mb-12 rounded-full relative"
-          >
-            <div className="absolute inset-0 bg-emerald-400/50 blur-sm animate-pulse-slow"></div>
-          </motion.div>
-          <div className="max-w-2xl mx-auto">
-            <ContactForm />
-          </div>
-        </div>
-      </section>
-
-      {/* Footer */}
-      <footer className="py-8 bg-[#032922] text-center relative">
-        {/* Light effect for footer */}
-        <div className="absolute top-0 left-0 w-full h-[1px] bg-emerald-500/20 overflow-hidden">
-          <div className="absolute inset-0 animate-shimmer"></div>
-        </div>
-        <div className="absolute inset-0 bg-gradient-to-t from-emerald-900/10 to-transparent"></div>
-
-        <div className="container mx-auto px-4 relative z-10">
-          <p className="mb-4">© {new Date().getFullYear()} Hana Nemsi. All rights reserved.</p>
-          <div className="flex justify-center space-x-4 mt-4">
-            <Link
-              href="https://github.com/Hananem"
-              target="_blank"
-              className="text-emerald-400 hover:text-emerald-300 transition-colors glow-text-hover"
-            >
-              <Github className="w-5 h-5" />
-              <span className="sr-only">GitHub</span>
-            </Link>
-            <Link
-              href="https://www.linkedin.com/in/hana-nemsi-27a18a148/"
-              target="_blank"
-              className="text-emerald-400 hover:text-emerald-300 transition-colors glow-text-hover"
-            >
-              <Linkedin className="w-5 h-5" />
-              <span className="sr-only">LinkedIn</span>
-            </Link>
-            <Link
-              href="mailto:nemsihana@gmail.com"
-              className="text-emerald-400 hover:text-emerald-300 transition-colors glow-text-hover"
-            >
-              <Mail className="w-5 h-5" />
-              <span className="sr-only">Email</span>
-            </Link>
-          </div>
-        </div>
-      </footer>
+     <QuoteSection />
+      <SkillsSection />
+      <MyProjects />
+      <HireMe />
     </main>
-  )
+  );
 }
-
-

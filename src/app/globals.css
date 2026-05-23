@@ -47,6 +47,18 @@
   to { height: 0; }
 }
 
+@font-face {
+  font-family: "ChunkyRetro";
+ src: url("/fonts/ChunkyRetro-6YmnD.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Alstoria";
+  src: url("/fonts/Alstoria.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
 /* Base styles */
 @layer base {
   :root {
