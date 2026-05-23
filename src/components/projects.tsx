@@ -460,7 +460,7 @@ function WavyBadge({ text, color }: { text: string; color: string }) {
 export default function MyProjects() {
   const [selectedProject, setSelectedProject] = useState<(typeof projects)[0] | null>(null);
   const [galleryProject, setGalleryProject] = useState<(typeof projects)[0] | null>(null);
-const [activeGalleryIndexes, setActiveGalleryIndexes] = useState<Record<number, number>>({});
+const [activeGalleryIndexes] = useState<Record<number, number>>({});
 
   return (
     <section

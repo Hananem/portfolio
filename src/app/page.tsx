@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect } from "react";
 
 import Experience from "@/components/experience";
 import Intro from "@/components/intro";

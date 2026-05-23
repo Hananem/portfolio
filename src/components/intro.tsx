@@ -210,6 +210,12 @@ function BigWord({ text, outline, red }: { text: string; outline?: boolean; red?
   )
 }
 
+const skills = [
+  "React", "Next.js", "TypeScript", "Framer Motion",
+  "GSAP", "Tailwind CSS", "Node.js", "Figma",
+  "Three.js", "CSS Animations", "REST APIs", "Git",
+]
+
 /* ═══════════════════════════════════════════════════
    MAIN
 ═══════════════════════════════════════════════════ */
@@ -232,10 +238,7 @@ export default function IntroSection() {
       ════════════════════════════════════════ */}
       <div className="relative overflow-hidden py-16">
 
-        {/* intro text — BLUR + FADE */}
-        <Rev variants={vFadeBlur} delay={0} className="px-10 md:px-20 mb-10 max-w-sm">
-        
-        </Rev>
+       
 
         {/* ROW A */}
         <div style={{ overflow: "hidden", lineHeight: 0.88, marginBottom: 3 }}>
@@ -304,44 +307,31 @@ export default function IntroSection() {
 
       {/* ════════════════════════════════════════
           BLOCK 2 — "I BUILD experiences that move."
-          مزيج: badge pop + SLIDE LEFT + SLIDE RIGHT
       ════════════════════════════════════════ */}
       <div className="relative px-8 md:px-16 py-24 overflow-hidden">
 
-        {/* label — slide from left */}
         <Rev variants={vSlideLeft} delay={0} style={{ marginBottom: 20 }}>
           <span style={{ fontFamily:"monospace",fontSize:10,letterSpacing:"0.3em",color:"#ffffff35" }}>001 / WHAT I DO</span>
         </Rev>
 
         <div style={{ display:"flex",flexWrap:"wrap",alignItems:"center",gap:14 }}>
-
-          {/* badge pop */}
           <AnimBadge bg="linear-gradient(135deg,#4ade80,#16a34a)" color="#000" rot={-3} size={48} px={26} py={10} round={16} delay={0} floatY={-10}>
             I BUILD
           </AnimBadge>
-
-          {/* badge pop delay */}
           <AnimBadge bg="#d8b4fe" color="#1e1b4b" rot={9} size={13} px={15} py={7} round={10} delay={0.15} floatY={10}>
             Easy
           </AnimBadge>
-
-          {/* slide from left */}
           <Rev variants={vSlideLeft} delay={0.25} tag="span" style={{ fontSize:"clamp(34px,5.5vw,72px)",fontWeight:900,color:"#f5f0e8",letterSpacing:"-0.03em" }}>
             experiences
           </Rev>
-
-          {/* badge */}
           <AnimBadge bg="#fb923c" color="#fff" rot={-6} size={13} px={15} py={7} round={10} delay={0.35} floatY={-12}>
             Easing
           </AnimBadge>
-
-          {/* slide from right */}
           <Rev variants={vSlideRight} delay={0.45} tag="span" style={{ fontSize:"clamp(34px,5.5vw,72px)",fontWeight:900,color:"#f5f0e8",letterSpacing:"-0.03em" }}>
             that move.
           </Rev>
         </div>
 
-        {/* shapes */}
         <div className="absolute pointer-events-none" style={{ bottom:14,right:36 }}>
           <AnimShape delay={0.2} floatY={14} dur={4}>
             <svg width="76" height="50" viewBox="0 0 80 54" fill="none">
@@ -370,23 +360,88 @@ export default function IntroSection() {
 
       {/* ════════════════════════════════════════
           BLOCK 3 — philosophy
-          FLIP Y على كل سطر + BLUR على الـ label
+          vFlipY على كل سطر + vFadeBlur على الـ label
       ════════════════════════════════════════ */}
-   
+      <div className="relative px-8 md:px-16 py-24 overflow-hidden">
+
+        <Rev variants={vFadeBlur} delay={0} style={{ marginBottom: 20 }}>
+          <span style={{ fontFamily:"monospace",fontSize:10,letterSpacing:"0.3em",color:"#ffffff35" }}>002 / PHILOSOPHY</span>
+        </Rev>
+
+        <div style={{ perspective: "800px" }}>
+          {[
+            { text: "Code is craft.", delay: 0 },
+            { text: "Motion is meaning.", delay: 0.18 },
+            { text: "Details make the difference.", delay: 0.36 },
+          ].map((line, i) => (
+            <div key={i} style={{ overflow: "hidden", marginBottom: 8 }}>
+              <Rev variants={vFlipY} delay={line.delay}>
+                <p style={{
+                  fontSize: "clamp(28px,4.5vw,64px)", fontWeight: 900,
+                  letterSpacing: "-0.03em", lineHeight: 1.1,
+                  color: i === 2 ? "#E34256" : "#f5f0e8",
+                }}>
+                  {line.text}
+                </p>
+              </Rev>
+            </div>
+          ))}
+        </div>
+
+        <div className="absolute pointer-events-none" style={{ top: 24, right: 48 }}>
+          <AnimShape delay={0.2} floatY={-14} dur={3.8}>
+            <svg width="52" height="52" viewBox="0 0 52 52" fill="none">
+              <rect x="4" y="4" width="44" height="44" rx="10" stroke="#d8b4fe" strokeWidth="2.5" strokeDasharray="6 4"/>
+            </svg>
+          </AnimShape>
+        </div>
+      </div>
 
       <div style={{ height:1,background:"#ffffff10",margin:"0 40px" }} />
 
       {/* ════════════════════════════════════════
           BLOCK 4 — skills tags
-          ZOOM في كل تاغ + SKEW على العنوان
+          vZoom في كل تاغ + vSkew على العنوان
       ════════════════════════════════════════ */}
-   
+      <div className="relative px-8 md:px-16 py-24 overflow-hidden">
+
+        <Rev variants={vSkew} delay={0} style={{ marginBottom: 28 }}>
+          <span style={{ fontFamily:"monospace",fontSize:10,letterSpacing:"0.3em",color:"#ffffff35" }}>003 / SKILLS</span>
+        </Rev>
+
+        <div style={{ display:"flex",flexWrap:"wrap",gap:12 }}>
+          {skills.map((skill, i) => (
+            <Rev key={skill} variants={vZoom} delay={i * 0.06}>
+              <span style={{
+                display: "inline-block",
+                padding: "8px 18px",
+                borderRadius: 10,
+                border: "1px solid #ffffff18",
+                fontSize: 13,
+                fontWeight: 600,
+                color: "#f5f0e8",
+                background: "#ffffff08",
+                letterSpacing: "0.02em",
+              }}>
+                {skill}
+              </span>
+            </Rev>
+          ))}
+        </div>
+
+        <div className="absolute pointer-events-none" style={{ bottom: 20, right: 60 }}>
+          <AnimShape delay={0.1} floatY={12} dur={4.2}>
+            <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+              <circle cx="20" cy="20" r="17" stroke="#4ade80" strokeWidth="2" strokeDasharray="5 3"/>
+            </svg>
+          </AnimShape>
+        </div>
+      </div>
 
       <div style={{ height:1,background:"#ffffff10",margin:"0 40px" }} />
 
       {/* ════════════════════════════════════════
           BLOCK 5 — finale
-          SLIDE UP بطيء جداً + shapes ZOOM staggered
       ════════════════════════════════════════ */}
       <div className="px-8 py-28 text-center" style={{ borderTop:"1px solid #ffffff10" }}>
 
@@ -407,7 +462,6 @@ export default function IntroSection() {
           </div>
         ))}
 
-        {/* 4 shapes — staggered zoom */}
         <div style={{ display:"flex",justifyContent:"center",gap:20,marginTop:48 }}>
           {[
             { el:<svg width="38" height="38" viewBox="0 0 36 36"><polygon points="18,2 35,34 1,34" fill="#E34256"/></svg>, delay:0.1 },
