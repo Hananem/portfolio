@@ -361,83 +361,11 @@ export default function IntroSection() {
       {/* ════════════════════════════════════════
           BLOCK 3 — philosophy
           vFlipY على كل سطر + vFadeBlur على الـ label
-      ════════════════════════════════════════ */}
-      <div className="relative px-8 md:px-16 py-24 overflow-hidden">
-
-        <Rev variants={vFadeBlur} delay={0} style={{ marginBottom: 20 }}>
-          <span style={{ fontFamily:"monospace",fontSize:10,letterSpacing:"0.3em",color:"#ffffff35" }}>002 / PHILOSOPHY</span>
-        </Rev>
-
-        <div style={{ perspective: "800px" }}>
-          {[
-            { text: "Code is craft.", delay: 0 },
-            { text: "Motion is meaning.", delay: 0.18 },
-            { text: "Details make the difference.", delay: 0.36 },
-          ].map((line, i) => (
-            <div key={i} style={{ overflow: "hidden", marginBottom: 8 }}>
-              <Rev variants={vFlipY} delay={line.delay}>
-                <p style={{
-                  fontSize: "clamp(28px,4.5vw,64px)", fontWeight: 900,
-                  letterSpacing: "-0.03em", lineHeight: 1.1,
-                  color: i === 2 ? "#E34256" : "#f5f0e8",
-                }}>
-                  {line.text}
-                </p>
-              </Rev>
-            </div>
-          ))}
-        </div>
-
-        <div className="absolute pointer-events-none" style={{ top: 24, right: 48 }}>
-          <AnimShape delay={0.2} floatY={-14} dur={3.8}>
-            <svg width="52" height="52" viewBox="0 0 52 52" fill="none">
-              <rect x="4" y="4" width="44" height="44" rx="10" stroke="#d8b4fe" strokeWidth="2.5" strokeDasharray="6 4"/>
-            </svg>
-          </AnimShape>
-        </div>
-      </div>
+  
 
       <div style={{ height:1,background:"#ffffff10",margin:"0 40px" }} />
 
-      {/* ════════════════════════════════════════
-          BLOCK 4 — skills tags
-          vZoom في كل تاغ + vSkew على العنوان
-      ════════════════════════════════════════ */}
-      <div className="relative px-8 md:px-16 py-24 overflow-hidden">
-
-        <Rev variants={vSkew} delay={0} style={{ marginBottom: 28 }}>
-          <span style={{ fontFamily:"monospace",fontSize:10,letterSpacing:"0.3em",color:"#ffffff35" }}>003 / SKILLS</span>
-        </Rev>
-
-        <div style={{ display:"flex",flexWrap:"wrap",gap:12 }}>
-          {skills.map((skill, i) => (
-            <Rev key={skill} variants={vZoom} delay={i * 0.06}>
-              <span style={{
-                display: "inline-block",
-                padding: "8px 18px",
-                borderRadius: 10,
-                border: "1px solid #ffffff18",
-                fontSize: 13,
-                fontWeight: 600,
-                color: "#f5f0e8",
-                background: "#ffffff08",
-                letterSpacing: "0.02em",
-              }}>
-                {skill}
-              </span>
-            </Rev>
-          ))}
-        </div>
-
-        <div className="absolute pointer-events-none" style={{ bottom: 20, right: 60 }}>
-          <AnimShape delay={0.1} floatY={12} dur={4.2}>
-            <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
-              <circle cx="20" cy="20" r="17" stroke="#4ade80" strokeWidth="2" strokeDasharray="5 3"/>
-            </svg>
-          </AnimShape>
-        </div>
-      </div>
-
+   
       <div style={{ height:1,background:"#ffffff10",margin:"0 40px" }} />
 
       {/* ════════════════════════════════════════
