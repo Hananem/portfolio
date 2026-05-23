@@ -23,7 +23,7 @@ const boogaloo = Boogaloo({
   subsets: ["latin"],
   weight: "400",
 });
-export const lilita = Lilita_One({
+ const lilita = Lilita_One({
   variable: "--font-lilita",
   subsets: ["latin"],
   weight: "400",
