@@ -1,4 +1,7 @@
+'use client';
+
 import React, { useEffect, useRef } from 'react';
+import Image from 'next/image';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -12,10 +15,7 @@ interface CardData {
   rotation: string;
 }
 
-const About: React.FC = () => {
-  const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
-
-  const cards: CardData[] = [
+const cards: CardData[] = [
   {
     id: 1,
     title: 'Who Am I?',
@@ -74,41 +74,56 @@ const About: React.FC = () => {
   },
 ];
 
-  const cloudDefs = [
-    { id: 'cl1',  dur: 26, xA: 50, yBase: 200,  scrubY: -35, scrub: 1.0, style: { width: 220, left:  60,   top:  200, opacity: 0.92 } },
-    { id: 'cl2',  dur: 34, xA: 38, yBase: 160,  scrubY: -40, scrub: 1.2, style: { width: 260, left:  820,  top:  160, opacity: 0.88 } },
-    { id: 'cl3',  dur: 21, xA: 28, yBase: 100,  scrubY: -30, scrub: 0.9, style: { width: 170, left:  420,  top:  100, opacity: 0.80 } },
-    { id: 'cl4',  dur: 31, xA: 58, yBase: 500,  scrubY: -45, scrub: 1.3, style: { width: 195, left:  10,   top:  500, opacity: 0.74 } },
-    { id: 'cl5',  dur: 37, xA: 44, yBase: 420,  scrubY: -38, scrub: 1.0, style: { width: 235, left:  950,  top:  420, opacity: 0.82 } },
-    { id: 'cl6',  dur: 19, xA: 34, yBase: 70,   scrubY: -28, scrub: 0.8, style: { width: 140, left:  700,  top:   70, opacity: 0.70 } },
-    { id: 'cl7',  dur: 41, xA: 48, yBase: 780,  scrubY: -50, scrub: 1.5, style: { width: 275, left:  370,  top:  780, opacity: 0.65 } },
-    { id: 'cl8',  dur: 29, xA: 65, yBase: 360,  scrubY: -42, scrub: 1.1, style: { width: 185, left: -40,   top:  360, opacity: 0.60 } },
-    { id: 'cl9',  dur: 35, xA: 38, yBase: 600,  scrubY: -33, scrub: 1.0, style: { width: 200, left: 1100,  top:  600, opacity: 0.63 } },
-    { id: 'cl10', dur: 17, xA: 24, yBase: 50,   scrubY: -25, scrub: 0.7, style: { width: 120, left:  260,  top:   50, opacity: 0.55 } },
-    { id: 'cl11', dur: 45, xA: 55, yBase: 1100, scrubY: -55, scrub: 1.6, style: { width: 240, left:  580,  top: 1100, opacity: 0.60 } },
-    { id: 'cl12', dur: 48, xA: 42, yBase: 1300, scrubY: -48, scrub: 1.4, style: { width: 210, left:  130,  top: 1300, opacity: 0.55 } },
-    { id: 'cl13', dur: 32, xA: 46, yBase: 900,  scrubY: -36, scrub: 1.0, style: { width: 155, left:  480,  top:  900, opacity: 0.68 } },
-    { id: 'cl14', dur: 27, xA: 30, yBase: 650,  scrubY: -30, scrub: 0.9, style: { width: 290, left:  150,  top:  650, opacity: 0.58 } },
-    { id: 'cl15', dur: 39, xA: 52, yBase: 1050, scrubY: -44, scrub: 1.2, style: { width: 175, left:  870,  top: 1050, opacity: 0.62 } },
-    { id: 'cl16', dur: 23, xA: 36, yBase: 280,  scrubY: -32, scrub: 1.0, style: { width: 145, left:  560,  top:  280, opacity: 0.72 } },
-    { id: 'cl17', dur: 44, xA: 60, yBase: 840,  scrubY: -52, scrub: 1.4, style: { width: 255, left: 1020,  top:  840, opacity: 0.56 } },
-    { id: 'cl18', dur: 20, xA: 22, yBase: 130,  scrubY: -22, scrub: 0.7, style: { width: 110, left:  750,  top:  130, opacity: 0.50 } },
-    { id: 'cl19', dur: 36, xA: 40, yBase: 1200, scrubY: -46, scrub: 1.3, style: { width: 230, left:  320,  top: 1200, opacity: 0.57 } },
-    { id: 'cl20', dur: 50, xA: 48, yBase: 1450, scrubY: -60, scrub: 1.6, style: { width: 200, left:  700,  top: 1450, opacity: 0.53 } },
-  ];
+const cloudDefs = [
+  { id: 'cl1',  dur: 26, xA: 50, yBase: 200,  scrubY: -35, scrub: 1.0, style: { width: 220, left:  60,   top:  200, opacity: 0.92 } },
+  { id: 'cl2',  dur: 34, xA: 38, yBase: 160,  scrubY: -40, scrub: 1.2, style: { width: 260, left:  820,  top:  160, opacity: 0.88 } },
+  { id: 'cl3',  dur: 21, xA: 28, yBase: 100,  scrubY: -30, scrub: 0.9, style: { width: 170, left:  420,  top:  100, opacity: 0.80 } },
+  { id: 'cl4',  dur: 31, xA: 58, yBase: 500,  scrubY: -45, scrub: 1.3, style: { width: 195, left:  10,   top:  500, opacity: 0.74 } },
+  { id: 'cl5',  dur: 37, xA: 44, yBase: 420,  scrubY: -38, scrub: 1.0, style: { width: 235, left:  950,  top:  420, opacity: 0.82 } },
+  { id: 'cl6',  dur: 19, xA: 34, yBase: 70,   scrubY: -28, scrub: 0.8, style: { width: 140, left:  700,  top:   70, opacity: 0.70 } },
+  { id: 'cl7',  dur: 41, xA: 48, yBase: 780,  scrubY: -50, scrub: 1.5, style: { width: 275, left:  370,  top:  780, opacity: 0.65 } },
+  { id: 'cl8',  dur: 29, xA: 65, yBase: 360,  scrubY: -42, scrub: 1.1, style: { width: 185, left: -40,   top:  360, opacity: 0.60 } },
+  { id: 'cl9',  dur: 35, xA: 38, yBase: 600,  scrubY: -33, scrub: 1.0, style: { width: 200, left: 1100,  top:  600, opacity: 0.63 } },
+  { id: 'cl10', dur: 17, xA: 24, yBase: 50,   scrubY: -25, scrub: 0.7, style: { width: 120, left:  260,  top:   50, opacity: 0.55 } },
+  { id: 'cl11', dur: 45, xA: 55, yBase: 1100, scrubY: -55, scrub: 1.6, style: { width: 240, left:  580,  top: 1100, opacity: 0.60 } },
+  { id: 'cl12', dur: 48, xA: 42, yBase: 1300, scrubY: -48, scrub: 1.4, style: { width: 210, left:  130,  top: 1300, opacity: 0.55 } },
+  { id: 'cl13', dur: 32, xA: 46, yBase: 900,  scrubY: -36, scrub: 1.0, style: { width: 155, left:  480,  top:  900, opacity: 0.68 } },
+  { id: 'cl14', dur: 27, xA: 30, yBase: 650,  scrubY: -30, scrub: 0.9, style: { width: 290, left:  150,  top:  650, opacity: 0.58 } },
+  { id: 'cl15', dur: 39, xA: 52, yBase: 1050, scrubY: -44, scrub: 1.2, style: { width: 175, left:  870,  top: 1050, opacity: 0.62 } },
+  { id: 'cl16', dur: 23, xA: 36, yBase: 280,  scrubY: -32, scrub: 1.0, style: { width: 145, left:  560,  top:  280, opacity: 0.72 } },
+  { id: 'cl17', dur: 44, xA: 60, yBase: 840,  scrubY: -52, scrub: 1.4, style: { width: 255, left: 1020,  top:  840, opacity: 0.56 } },
+  { id: 'cl18', dur: 20, xA: 22, yBase: 130,  scrubY: -22, scrub: 0.7, style: { width: 110, left:  750,  top:  130, opacity: 0.50 } },
+  { id: 'cl19', dur: 36, xA: 40, yBase: 1200, scrubY: -46, scrub: 1.3, style: { width: 230, left:  320,  top: 1200, opacity: 0.57 } },
+  { id: 'cl20', dur: 50, xA: 48, yBase: 1450, scrubY: -60, scrub: 1.6, style: { width: 200, left:  700,  top: 1450, opacity: 0.53 } },
+];
 
-  const blimpDefs = [
-    { id: 'blimp1', top: 300,  width: 220, flyDur: 58, flyDelay: 0,  bobY: 20, bobDur: 6.5, scrubY: -50, scrub: 1.5 },
-    { id: 'blimp2', top: 700,  width: 160, flyDur: 72, flyDelay: 18, bobY: 15, bobDur: 8.0, scrubY: -40, scrub: 1.8 },
-    { id: 'blimp3', top: 1150, width: 190, flyDur: 64, flyDelay: 35, bobY: 18, bobDur: 7.2, scrubY: -55, scrub: 1.3 },
-  ];
+const blimpDefs = [
+  { id: 'blimp1', top: 300,  width: 220, flyDur: 58, flyDelay: 0,  bobY: 20, bobDur: 6.5, scrubY: -50, scrub: 1.5 },
+  { id: 'blimp2', top: 700,  width: 160, flyDur: 72, flyDelay: 18, bobY: 15, bobDur: 8.0, scrubY: -40, scrub: 1.8 },
+  { id: 'blimp3', top: 1150, width: 190, flyDur: 64, flyDelay: 35, bobY: 18, bobDur: 7.2, scrubY: -55, scrub: 1.3 },
+];
 
-  const planeDefs = [
-    { id: 'plane1', top: 180,  width: 180, flyDur: 26, flyDelay: 5,  bobY: 14, bobDur: 3.8, scrubY: -70, scrub: 0.8 },
-    { id: 'plane2', top: 550,  width: 130, flyDur: 32, flyDelay: 12, bobY: 10, bobDur: 4.5, scrubY: -58, scrub: 1.0 },
-    { id: 'plane3', top: 950,  width: 155, flyDur: 21, flyDelay: 2,  bobY: 12, bobDur: 3.2, scrubY: -65, scrub: 0.9 },
-    { id: 'plane4', top: 1350, width: 115, flyDur: 38, flyDelay: 22, bobY: 8,  bobDur: 5.0, scrubY: -45, scrub: 1.2 },
-  ];
+const planeDefs = [
+  { id: 'plane1', top: 180,  width: 180, flyDur: 26, flyDelay: 5,  bobY: 14, bobDur: 3.8, scrubY: -70, scrub: 0.8 },
+  { id: 'plane2', top: 550,  width: 130, flyDur: 32, flyDelay: 12, bobY: 10, bobDur: 4.5, scrubY: -58, scrub: 1.0 },
+  { id: 'plane3', top: 950,  width: 155, flyDur: 21, flyDelay: 2,  bobY: 12, bobDur: 3.2, scrubY: -65, scrub: 0.9 },
+  { id: 'plane4', top: 1350, width: 115, flyDur: 38, flyDelay: 22, bobY: 8,  bobDur: 5.0, scrubY: -45, scrub: 1.2 },
+];
+
+const Sparkle = ({ size = 22, color = '#5a7a72' }: { size?: number; color?: string }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill={color}>
+    <path d="M12 2 L13.5 10.5 L22 12 L13.5 13.5 L12 22 L10.5 13.5 L2 12 L10.5 10.5 Z" />
+  </svg>
+);
+
+const badgeBg = (bg: string): string => {
+  if (bg === '#aecfc8') return '#5a8a80';
+  if (bg === '#c1cfae') return '#6a7d58';
+  return '#2c2c2c';
+};
+
+const About: React.FC = () => {
+  const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -126,14 +141,15 @@ const About: React.FC = () => {
           repeat: -1,
           yoyo: true,
         });
-        gsap.fromTo(el,
+        gsap.fromTo(
+          el,
           { y: 0 },
           {
-            y: -(totalH + (c.style.top as number) + 120),
+            y: -(totalH + c.style.top + 120),
             duration: c.dur,
             ease: 'none',
             repeat: -1,
-            delay: -c.dur * ((c.style.top as number) / totalH),
+            delay: -c.dur * (c.style.top / totalH),
           },
         );
         gsap.to(el, {
@@ -189,7 +205,6 @@ const About: React.FC = () => {
         if (!card) return;
         const targetRotation = cards[index].rotation;
 
-        // start flat → tilt when entering viewport
         gsap.fromTo(
           card,
           { rotation: 0, y: 60, opacity: 0 },
@@ -205,27 +220,14 @@ const About: React.FC = () => {
               end: 'top 40%',
               toggleActions: 'play none none reverse',
             },
-          }
+          },
         );
       });
     });
 
     return () => ctx.revert();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  const Sparkle = ({ size = 22, color = '#5a7a72' }: { size?: number; color?: string }) => (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill={color}>
-      <path d="M12 2 L13.5 10.5 L22 12 L13.5 13.5 L12 22 L10.5 13.5 L2 12 L10.5 10.5 Z" />
-    </svg>
-  );
-
-const cardTextColor = () => '#111';
- const cardSubColor  = () => '#111';
-  const badgeBg       = (bg: string) => {
-    if (bg === '#aecfc8') return '#5a8a80';
-    if (bg === '#c1cfae') return '#6a7d58';
-    return '#2c2c2c';
-  };
 
   return (
     <div id="about" style={{ position: 'relative', overflow: 'hidden' }}>
@@ -242,16 +244,74 @@ const cardTextColor = () => '#111';
         }}
       >
         {cloudDefs.map((c) => (
-          <img key={c.id} id={c.id} src="images/cloud.png" alt=""
-            style={{ position: 'absolute', userSelect: 'none', pointerEvents: 'none', ...c.style }} />
+          <div
+            key={c.id}
+            id={c.id}
+            style={{
+              position: 'absolute',
+              userSelect: 'none',
+              pointerEvents: 'none',
+              width: c.style.width,
+              left: c.style.left,
+              top: c.style.top,
+              opacity: c.style.opacity,
+            }}
+          >
+            <Image
+              src="/images/cloud.png"
+              alt=""
+              width={c.style.width}
+              height={80}
+              style={{ width: '100%', height: 'auto' }}
+              priority={false}
+            />
+          </div>
         ))}
         {blimpDefs.map((b) => (
-          <img key={b.id} id={b.id} src="images/blimp.png" alt=""
-            style={{ position: 'absolute', top: b.top, left: 0, width: b.width, userSelect: 'none', pointerEvents: 'none' }} />
+          <div
+            key={b.id}
+            id={b.id}
+            style={{
+              position: 'absolute',
+              top: b.top,
+              left: 0,
+              width: b.width,
+              userSelect: 'none',
+              pointerEvents: 'none',
+            }}
+          >
+            <Image
+              src="/images/blimp.png"
+              alt=""
+              width={b.width}
+              height={80}
+              style={{ width: '100%', height: 'auto' }}
+              priority={false}
+            />
+          </div>
         ))}
         {planeDefs.map((p) => (
-          <img key={p.id} id={p.id} src="images/plane.png" alt=""
-            style={{ position: 'absolute', top: p.top, left: 0, width: p.width, userSelect: 'none', pointerEvents: 'none' }} />
+          <div
+            key={p.id}
+            id={p.id}
+            style={{
+              position: 'absolute',
+              top: p.top,
+              left: 0,
+              width: p.width,
+              userSelect: 'none',
+              pointerEvents: 'none',
+            }}
+          >
+            <Image
+              src="/images/plane.png"
+              alt=""
+              width={p.width}
+              height={60}
+              style={{ width: '100%', height: 'auto' }}
+              priority={false}
+            />
+          </div>
         ))}
       </div>
 
@@ -285,7 +345,7 @@ const cardTextColor = () => '#111';
             marginBottom: '3.5rem',
             lineHeight: 1.15,
           }}>
-            Who's Behind the Code?
+            Who&apos;s Behind the Code?
           </h2>
 
           {/* Stacked cards */}
@@ -293,7 +353,7 @@ const cardTextColor = () => '#111';
             {cards.map((card, index) => (
               <div
                 key={card.id}
-                ref={(el) => (cardRefs.current[index] = el)}
+                ref={(el) => { cardRefs.current[index] = el; }}
                 style={{
                   position: 'sticky',
                   top: `${5 + index * 1.5}rem`,
@@ -303,7 +363,6 @@ const cardTextColor = () => '#111';
                   padding: '2rem 2rem 2.2rem',
                   marginBottom: index === cards.length - 1 ? '0' : '14vh',
                   zIndex: index + 1,
-                  // start flat — GSAP will animate to rotation
                   transform: 'rotate(0deg)',
                   opacity: 0,
                   boxSizing: 'border-box',
@@ -318,19 +377,13 @@ const cardTextColor = () => '#111';
                   <Sparkle size={20} color={badgeBg(card.bg)} />
                 </div>
 
-                {/* Number badge */}
-             
-
                 {/* Card content */}
                 <div style={{ display: 'flex', alignItems: 'center', gap: '1.2rem' }}>
-       
-
-                  {/* Text */}
                   <div style={{ flex: 1 }}>
                     <h3 style={{
                       fontSize: '1.35rem',
                       fontWeight: 800,
-                      color: cardTextColor(card.bg),
+                      color: '#111',
                       marginBottom: '0.4rem',
                       lineHeight: 1.2,
                     }}>
@@ -338,11 +391,11 @@ const cardTextColor = () => '#111';
                     </h3>
                     <p style={{
                       fontSize: '0.97rem',
-                      color: cardSubColor(card.bg),
+                      color: '#111',
                       lineHeight: 1.65,
                       margin: 0,
                     }}>
-                      "{card.description}"
+                      &ldquo;{card.description}&rdquo;
                     </p>
                   </div>
                 </div>

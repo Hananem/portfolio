@@ -1,6 +1,6 @@
-"use client"
-import { useState, useEffect, useRef, useCallback } from "react";
-import { motion, AnimatePresence, useAnimation } from "framer-motion";
+"use client";
+import { useState, useEffect, useRef } from "react";
+import { motion, useAnimation } from "framer-motion";
 
 function HeroContent() {
   const dotControls = useAnimation();
@@ -10,17 +10,17 @@ function HeroContent() {
   useEffect(() => {
     async function run() {
       // حساب المسافة بناء على عرض الشاشة
-      const slideDistance = window.innerWidth < 640
-        ? window.innerWidth * 0.28
-        : window.innerWidth < 1024
-        ? window.innerWidth * 0.22
-        : 355;
+      const slideDistance =
+        window.innerWidth < 640
+          ? window.innerWidth * 0.28
+          : window.innerWidth < 1024
+          ? window.innerWidth * 0.22
+          : 355;
 
       await dotControls.start({
         y: 0, scaleX: 1, scaleY: 1,
         transition: { duration: 0.65, ease: [0.55, 0, 1, 0.45] },
       });
-
       await dotControls.start({ scaleX: 1.6, scaleY: 0.5, transition: { duration: 0.07 } });
       await dotControls.start({ scaleX: 1, scaleY: 1, transition: { duration: 0.06 } });
 
@@ -59,13 +59,14 @@ function HeroContent() {
   const chars = name.split("");
 
   // حساب x الابتدائي للحروف بناء على الشاشة
-  const initialX = typeof window !== "undefined"
-    ? window.innerWidth < 640
-      ? -window.innerWidth * 0.28
-      : window.innerWidth < 1024
-      ? -window.innerWidth * 0.22
-      : -335
-    : -335;
+  const initialX =
+    typeof window !== "undefined"
+      ? window.innerWidth < 640
+        ? -window.innerWidth * 0.28
+        : window.innerWidth < 1024
+        ? -window.innerWidth * 0.22
+        : -335
+      : -335;
 
   return (
     <div
