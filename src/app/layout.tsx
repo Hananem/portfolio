@@ -1,6 +1,6 @@
-
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Lilita_One, Oswald, Boogaloo } from "next/font/google";
+import SmoothScroll from "@/components/SmoothScroll"; // 1. استيراد المكون هنا
 import "./globals.css";
 
 const geistSans = Geist({
@@ -23,7 +23,8 @@ const boogaloo = Boogaloo({
   subsets: ["latin"],
   weight: "400",
 });
- const lilita = Lilita_One({
+
+const lilita = Lilita_One({
   variable: "--font-lilita",
   subsets: ["latin"],
   weight: "400",
@@ -46,12 +47,15 @@ export default function RootLayout({
           ${geistSans.variable}
           ${geistMono.variable}
           ${lilita.variable}
-           ${oswald.variable}
-           ${boogaloo.variable}
+          ${oswald.variable}
+          ${boogaloo.variable}
           antialiased
         `}
       >
-        {children}
+        {/* 2. تغليف الـ children بالمكون ليعمل السكرول على الموقع بالكامل */}
+        <SmoothScroll>
+          {children}
+        </SmoothScroll>
       </body>
     </html>
   );

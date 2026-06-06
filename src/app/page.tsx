@@ -1,6 +1,5 @@
 "use client";
 
-
 import Experience from "@/components/experience";
 import Intro from "@/components/intro";
 import About from "@/components/about";
@@ -12,24 +11,42 @@ import HeroSection from "@/components/herosection";
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-[#011a14] text-emerald-50">
+    <main className="relative overflow-hidden bg-[#011a14] text-emerald-50">
 
-      {/* Hero */}
-      <HeroSection />
+      {/* Global gradient background */}
+      <div className="fixed inset-0 -z-10 bg-[radial-gradient(circle_at_top,#0b3b2e,transparent_40%),radial-gradient(circle_at_bottom,#022c22,transparent_35%)]" />
 
-      <Intro />
+      <section className="relative">
+        <HeroSection />
+      </section>
 
-      <About />
+      <section className="relative">
+        <Intro />
+      </section>
 
-      <Experience />
+      <section className="relative">
+        <About />
+      </section>
 
-      <QuoteSection />
+      <section className="relative">
+        <Experience />
+      </section>
 
-      <SkillsSection />
+      <section className="relative">
+        <QuoteSection />
+      </section>
 
-      <MyProjects />
+      <section className="relative">
+        <SkillsSection />
+      </section>
 
-      <HireMe />
+      <section className="relative">
+        <MyProjects />
+      </section>
+
+      <section className="relative">
+        <HireMe />
+      </section>
 
     </main>
   );
