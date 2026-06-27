@@ -26,8 +26,7 @@ const CODE_WORDS = [
   "Redux",
   "MongoDB",
   "REST",
-  "GraphQL",
-  "Docker",
+
   "Tailwind",
   "Next.js",
   "Python",
@@ -35,8 +34,7 @@ const CODE_WORDS = [
   "JSON",
   "fetch()",
   "npm",
-  "CI/CD",
-  "UI/UX",
+
   "JWT",
 ];
 
@@ -50,6 +48,20 @@ const TICKER_TEXT =
   "HANA NEMSI • FRONT-END DEV • REACT • NEXT.JS • TYPESCRIPT • UI/UX • NODE.JS • OPEN TO WORK •    ";
 
 let cardIdCounter = 0;
+
+function useIsMobile(breakpoint = 640) {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const mq = window.matchMedia(`(max-width: ${breakpoint}px)`);
+    const update = () => setIsMobile(mq.matches);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, [breakpoint]);
+
+  return isMobile;
+}
 
 function MouseCursor() {
   const [pos, setPos] = useState({ x: -100, y: -100 });
@@ -165,6 +177,13 @@ function StickerBadge() {
 }
 
 function NameSticker() {
+  const isMobile = useIsMobile();
+
+  const dilate1 = isMobile ? 22 : 45;
+  const erode1 = isMobile ? 15 : 32;
+  const dilate2 = isMobile ? 15 : 32;
+  const blurStd = isMobile ? 1.2 : 2;
+
   return (
     <motion.div
       initial={{ scale: 0.85, opacity: 0, rotate: -4 }}
@@ -195,24 +214,24 @@ function NameSticker() {
             <feMorphology
               in="SourceAlpha"
               operator="dilate"
-              radius="45"
+              radius={dilate1}
               result="big"
             />
             <feMorphology
               in="big"
               operator="erode"
-              radius="32"
+              radius={erode1}
               result="eroded"
             />
             <feMorphology
               in="eroded"
               operator="dilate"
-              radius="32"
+              radius={dilate2}
               result="bumpy"
             />
             <feGaussianBlur
               in="bumpy"
-              stdDeviation="2"
+              stdDeviation={blurStd}
               result="blurred"
             />
             <feComponentTransfer
@@ -289,18 +308,7 @@ function Tagline() {
         marginTop: 50,
       }}
     >
-      <div
-        style={{
-          fontFamily: "'Baloo 2', cursive",
-          color: "#FF5A14",
-          fontSize: "clamp(14px, 2vw, 42px)",
-          lineHeight: 1,
-          fontWeight: 800,
-          textAlign: "center",
-        }}
-      >
-        ✦ BUILDING BEAUTIFUL INTERFACES ✦
-      </div>
+    
 
       <div
         style={{
